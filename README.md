@@ -49,11 +49,11 @@ The public key is shared openly and is used to encrypt data. The private key is 
 ## How It Works
 
 ### Key Generation
-1. **Choose two prime numbers**: `p` and `q` are selected randomly. These prime numbers must be large to ensure security.
+1. **Choose two prime numbers**: `p` and `q` are selected. These prime numbers in practice must be large to ensure security, but for the sake of efficiency and visualisation enter small p and q values.
 2. **Compute `n`**: `n = p * q`, which is used as part of both the public and private keys.
-3. **Compute Euler's Totient**: `phi(n) = (p - 1) * (q - 1)`.
-4. **Choose `e` (public exponent)**: `e` is chosen such that `1 < e < phi(n)` and `e` is coprime to `phi(n)`. The most common value for `e` is 65537.
-5. **Compute `d` (private exponent)**: `d` is the modular multiplicative inverse of `e` mod `phi(n)`. This means that `(e * d) % phi(n) = 1`.
+3. **Compute Euler's Totient**: `φ(n) = (p - 1) * (q - 1)`.
+4. **Choose `e` (public exponent)**: `e` is chosen such that `1 < e < φ(n)` and `e` is coprime to `φ(n)`. The most common value for `e` is 65537.
+5. **Compute `d` (private exponent)**: `d` is the modular multiplicative inverse of `e` mod `φ(n)`. This means that `(e * d) % φ(n) = 1`.
 
 At this point, the public key is `(e, n)` and the private key is `(d, n)`.
 
