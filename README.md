@@ -18,8 +18,6 @@ This project implements the RSA algorithm and provides a visualizer to demonstra
   - [Decryption](#decryption)
 - [Usage](#usage)
 - [Technologies Used](#technologies-used)
-- [Contributing](#contributing)
-- [License](#license)
 
 ---
 
