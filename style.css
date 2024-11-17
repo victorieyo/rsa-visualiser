@@ -1,0 +1,157 @@
+.floating-btn {
+    position: fixed;
+    bottom: 70px;
+    left: 50px;
+}
+
+.floating-btn .main-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #fff;
+    color: #222;
+    display: grid;
+    place-items: center;
+    position: relative;
+    cursor: pointer;
+    transition: all 300ms ease;
+}
+
+.floating-btn.active .main-btn {
+    transform: rotateZ(45deg);
+}
+
+.floating-btn .main-btn svg {
+    width: 30px;
+    display: flex;
+}
+
+.floating-btn .options {
+    position: absolute;
+    transform: translate(30px, 30px) scale(0);
+    opacity: 0;
+    transition: all 300ms ease;
+}
+
+.floating-btn.active .options {
+    transform: translate(5px, 5px) scale(1);
+    opacity: 1;
+    transition: all 300ms ease;
+}
+
+.floating-btn .option {
+    background: #eee;
+    padding: 8px 12px;
+    border-radius: 8px;
+    white-space: nowrap;
+    margin-bottom: 10px; /* Space between options */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.floating-btn .option a {
+    text-decoration: none;
+    color: #222;
+    user-select: none;
+    display: block; /* Make the whole div clickable */
+    width: 100%;
+    height: 100%;
+}
+
+.floating-btn .option:nth-child(1) {
+    transform: translate(45px, -40px) rotate(348deg);
+}
+
+.floating-btn .option:nth-child(2) {
+    transform: translate(48px, -18px) rotate(9deg);
+}
+
+.container {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.column {
+    max-width: 1200px; 
+    width: 100%;
+}
+
+.box {
+    padding: 20px;
+}
+
+.title, .title.is-4 {
+    text-align: center;
+}
+
+.table {
+    margin: 0 auto;
+    font-size: 1.2rem; 
+    width: 100%;
+}
+
+.table th, .table td {
+    text-align: center;
+}
+
+#decryptedMessageDisplay {
+    text-align: center;
+    font-size: 1.2rem;
+}
+
+.box {
+    margin: 20px;
+}
+
+.bubble-container {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    transition: all 0.3s ease;
+}
+
+.bubble {
+    width: 60px;
+    height: 60px;
+    background-color: #007bff;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-size: 24px;
+    margin-bottom: 10px;
+    transition: all 0.3s ease;
+}
+
+.bubble-label {
+    font-size: 14px;
+    color: #007bff;
+    margin-top: 10px;
+    text-align: center;
+}
+
+.expanded .bubble {
+    width: 60px;
+    height: 60px;
+    background-color: #007bff;
+    color: white;
+    font-size: 18px;
+}
+
+.expanded .bubble + .bubble {
+    margin-top: 10px;
+}
+
+.hidden {
+    display: none;
+}

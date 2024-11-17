@@ -300,3 +300,24 @@ function toggleDecryptionTable() {
         toggleButton.textContent = "Extend";
     }
 }
+
+function toggleExpansion() {
+    const expandedBubbles = document.getElementById('expandedBubbles');
+    if (expandedBubbles.classList.contains('hidden')) {
+        expandedBubbles.classList.remove('hidden');
+    } else {
+        expandedBubbles.classList.add('hidden');
+    }
+}
+
+const floatingBtn = document.querySelector(".floating-btn");
+
+floatingBtn.addEventListener("click", () => {
+    floatingBtn.classList.toggle("active");
+});
+
+document.addEventListener("click", (e) => {
+    if (!floatingBtn.contains(e.target)) {
+        floatingBtn.classList.remove("active");
+    }
+});

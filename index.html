@@ -6,49 +6,7 @@
     <title>RSA Visualizer</title>
     <!-- Bulma CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
-    <script src="index.js"></script>
-
-    <style>
-        .container {
-            margin-top: 30px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-
-        .column {
-            max-width: 800px; 
-            width: 100%;
-        }
-
-        .box {
-            padding: 20px;
-        }
-
-        .title, .title.is-4 {
-            text-align: center;
-        }
-
-        .table {
-            margin: 0 auto;
-            font-size: 1.2rem; 
-            width: 100%;
-        }
-
-        .table th, .table td {
-            text-align: center;
-        }
-
-        #decryptedMessageDisplay {
-            text-align: center;
-            font-size: 1.2rem;
-        }
-
-        .box {
-            margin: 20px;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -140,8 +98,28 @@
                 <p id="decryptedMessageDisplay" class="mt-3"><strong>Decrypted message:</strong> <span id="decryptedMessage"></span></p>
             </div>
 
+            <div class="floating-btn">
+                <div class="options">
+                    <a href="rsa.html" class="option">
+                        RSA Algorithm
+                    </a>
+                    <a href="about.html" class="option">
+                        About Me
+                    </a>
+                </div>
+
+                <div class="main-btn">
+                    <span>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                        </svg>                          
+                    </span>
+                </div>
+            </div>
+
         </div>
     </div>
-    
+
+    <script src="index.js"></script>
 </body> 
 </html>
