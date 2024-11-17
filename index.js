@@ -185,7 +185,7 @@ function showInfo(m, encrypted) {
 
     // Prepare the calculation string
     const infoText = `The encrypted value for the character is calculated as: 
-                      <strong>c = m<sup>${e}</sup> mod n</strong>, where:
+                      <strong>c = m<sup>e</sup> mod n</strong>, where:
                       <ul>
                           <li><strong>m</strong> = ${m} (<strong>${character}</strong>'s Character Code)</li>
                           <li><strong>e</strong> = ${e} (Public Exponent)</li>
@@ -315,7 +315,7 @@ function showDecryptedInfo(encrypted, decrypted) {
     // Prepare the calculation string for decryption
     const infoText = `
         The decrypted value for the character is calculated as: 
-        <strong>m = c<sup>${d}</sup> mod n</strong>, where:
+        <strong>m = c<sup>d</sup> mod n</strong>, where:
         <ul>
             <li><strong>c</strong> = ${encrypted} (Encrypted Value)</li>
             <li><strong>d</strong> = ${d} (Private Exponent)</li>
