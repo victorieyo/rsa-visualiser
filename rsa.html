@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RSA Algorithm - RSA Visualizer</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
+    <style>
+        .container {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .column {
+            max-width: 800px;
+            width: 100%;
+        }
+
+        .box {
+            padding: 20px;
+        }
+
+        .title {
+            text-align: center;
+        }
+
+        .content {
+            font-size: 1.1rem;
+        }
+
+        .back-btn {
+            display: block;
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="column">
+
+            <h1 class="title is-size-3 has-text-centered">RSA Algorithm</h1>
+
+            <div class="box">
+                <h2 class="title is-size-4">What is RSA?</h2>
+                <p class="content">RSA (Rivest–Shamir–Adleman) is a widely-used public-key cryptosystem that allows secure data encryption. It is based on the mathematical difficulty of factoring large prime numbers. RSA is used for secure data transmission and is an essential part of modern cryptography.</p>
+
+                <h3 class="title is-size-5">How RSA Works</h3>
+                <p class="content">
+                    RSA relies on two keys: a public key and a private key. The public key is used for encryption, while the private key is used for decryption. Here's a simplified breakdown of how the RSA algorithm works:
+                </p>
+                <ul class="content">
+                    <li>1. Generate two large prime numbers, p and q.</li>
+                    <li>2. Calculate n = p * q.</li>
+                    <li>3. Calculate the totient, φ(n) = (p-1)(q-1).</li>
+                    <li>4. Choose a public exponent (e) that is coprime with φ(n).</li>
+                    <li>5. Calculate the private exponent (d), which is the modular inverse of e modulo φ(n).</li>
+                    <li>6. The public key is (e, n) and the private key is (d, n).</li>
+                </ul>
+
+                <h3 class="title is-size-5">Encryption and Decryption</h3>
+                <p class="content">
+                    - Encryption: To encrypt a message, you convert the message into a number m (using ASCII or other encoding). The ciphertext is then calculated as c = m<sup>e</sup> mod n using the public key (e, n).<br>
+                    - Decryption: To decrypt the ciphertext, you use the private key (d, n) and compute m = c<sup>d</sup> mod n.
+                </p>
+
+                <a href="index.html" class="button is-primary back-btn">Back to Main Page</a>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>
