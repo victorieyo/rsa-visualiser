@@ -60,22 +60,6 @@ function modExp(base, exp, mod) {
     return result;
 }
 
-function generateRSAKeys(p, q) {
-    if (!isPrime(p) || !isPrime(q)) {
-        throw new Error("Both p and q must be prime numbers.");
-    }
-    const n = p * q;
-    const phi_n = (p - 1) * (q - 1);
-
-    const e = findE(phi_n);
-    const d = findD(e, phi_n);
-
-    return {
-        publicKey: { e, n },
-        privateKey: { d, n }
-    };
-}
-
 function handleKeyGeneration(event) {
     event.preventDefault();
 
@@ -86,6 +70,10 @@ function handleKeyGeneration(event) {
     // Validate inputs
     if (!isPrime(p) || !isPrime(q)) {
         alert("Both p and q must be prime numbers!");
+        return;
+    }
+    else if (p == q) {
+        alert("p and q must be distinct prime numbers!");
         return;
     }
 
@@ -110,6 +98,8 @@ function handleKeyGeneration(event) {
     // Show the Results Box
     document.getElementById("keyResults").classList.remove("is-hidden");
     document.getElementById("encryptionSection").classList.remove("is-hidden");
+    document.getElementById("encryptionResults").classList.add("is-hidden");
+    document.getElementById("decryptionResults").classList.add("is-hidden");
 }
 
 let encryptedData = [];
@@ -136,14 +126,21 @@ function encryptMessage() {
     const tableBody = document.getElementById("encryptionTable");
     tableBody.innerHTML = ""; // Clear previous results
     encryptedData.forEach(({ char, encrypted }, index) => {
+        const m = char.charCodeAt(0);
+        const e = publicKey.e;
+        const n = publicKey.n;
         const row = document.createElement("tr");
         row.innerHTML = `
             <td>${char}</td>
             <td>${encrypted}</td>
+            <td>
+                <strong class="clickable" onclick="showInfo(${m}, '${encrypted}')">${m}<sup>${e}</sup> mod ${n} = ${encrypted}</strong>
+            </td>
         `;
         if (index < 5 || plaintext.length <= 6) {
             tableBody.appendChild(row); 
         }
+        console.log(char.charCodeAt(0));
     });
 
     // Handle placeholder row and toggle button
@@ -155,6 +152,7 @@ function encryptMessage() {
         placeholderRow.innerHTML = `
             <td>...</td>
             <td>...</td>
+            <td></td>
         `;
         tableBody.appendChild(placeholderRow); // Add placeholder row
         toggleButton.classList.remove("is-hidden");
@@ -177,7 +175,32 @@ function encryptMessage() {
 
     document.getElementById("encryptedMessage").textContent = displayMessage;
     document.getElementById("encryptionResults").classList.remove("is-hidden");
+    document.getElementById("decryptionResults").classList.add("is-hidden");
 }
+
+function showInfo(m, encrypted) {
+    const e = publicKey.e;
+    const n = publicKey.n;
+    const character = String.fromCharCode(m);
+
+    // Prepare the calculation string
+    const infoText = `The encrypted value for the character is calculated as: 
+                      <strong>c = m<sup>${e}</sup> mod n</strong>, where:
+                      <ul>
+                          <li><strong>m</strong> = ${m} (<strong>${character}</strong>'s Character Code)</li>
+                          <li><strong>e</strong> = ${e} (Public Exponent)</li>
+                          <li><strong>n</strong> = ${n} (Modulus)</li>
+                      </ul>
+                      Substituting the values: 
+                      <strong>c = ${m}<sup>${e}</sup> mod ${n}</strong> = ${encrypted}`;
+
+    document.getElementById("infoText").innerHTML = infoText;
+    document.getElementById("infoModal").classList.add("is-active");
+}
+
+document.querySelector("#infoModal .modal-close").addEventListener("click", () => {
+    document.getElementById("infoModal").classList.remove("is-active");
+});
 
 function toggleTable() {
     const tableBody = document.getElementById("encryptionTable");
@@ -188,10 +211,18 @@ function toggleTable() {
         if (placeholderRow) placeholderRow.remove();
 
         encryptedData.slice(5).forEach(({ char, encrypted }) => {
+            const m = char.charCodeAt(0);
+            const e = publicKey.e;
+            const n = publicKey.n;
+
+            // Update the row with the clickable formula
             const row = document.createElement("tr");
             row.innerHTML = `
                 <td>${char}</td>
                 <td>${encrypted}</td>
+                <td>
+                    <strong class="clickable" onclick="showInfo(${m}, '${encrypted}')">${m}<sup>${e}</sup> mod ${n} = ${encrypted}</strong>
+                </td>
             `;
             tableBody.appendChild(row);
         });
@@ -205,6 +236,7 @@ function toggleTable() {
         const placeholderRow = document.createElement("tr");
         placeholderRow.id = "placeholderRow";
         placeholderRow.innerHTML = `
+            <td>...</td>
             <td>...</td>
             <td>...</td>
         `;
@@ -229,10 +261,16 @@ function decryptMessage() {
     const tableBody = document.getElementById("decryptionTable");
     tableBody.innerHTML = ""; // Clear previous results
     decrypted.forEach(({ encrypted, decrypted }, index) => {
+        const d = privateKey.d;
+        const n = publicKey.n;
+        const m = encrypted;
         const row = document.createElement("tr");
         row.innerHTML = `
             <td>${encrypted}</td>
             <td>${decrypted}</td>
+            <td>
+                <strong class="clickable" onclick="showDecryptedInfo(${encrypted}, '${decrypted}')">${encrypted}<sup>${d}</sup> mod ${n} = ${decrypted.charCodeAt(0)} (<strong>${decrypted}</strong>'s Character Code)</strong>
+            </td>
         `;
         if (index < 5 || encryptedData.length <= 6) {
             tableBody.appendChild(row); 
@@ -251,12 +289,12 @@ function decryptMessage() {
         placeholderRow.innerHTML = `
             <td>...</td>
             <td>...</td>
+            <td>...</td>
         `;
         tableBody.appendChild(placeholderRow);
         toggleButton.classList.remove("is-hidden");
         toggleButton.textContent = "Extend";
     } else {
-        // Remove the placeholder row if all rows are displayed
         const placeholderRow = document.getElementById("decryptionPlaceholderRow");
         if (placeholderRow) placeholderRow.remove();
         toggleButton.classList.add("is-hidden");
@@ -264,6 +302,35 @@ function decryptMessage() {
 
     document.getElementById("decryptionResults").classList.remove("is-hidden");
 }
+
+document.querySelector("#decryptionInfoModal .modal-close").addEventListener("click", () => {
+    document.getElementById("decryptionInfoModal").classList.remove("is-active");
+});
+
+function showDecryptedInfo(encrypted, decrypted) {
+    const d = privateKey.d;
+    const n = publicKey.n;
+    const decryptedCharCode = decrypted.charCodeAt(0);  
+
+    // Prepare the calculation string for decryption
+    const infoText = `
+        The decrypted value for the character is calculated as: 
+        <strong>m = c<sup>${d}</sup> mod n</strong>, where:
+        <ul>
+            <li><strong>c</strong> = ${encrypted} (Encrypted Value)</li>
+            <li><strong>d</strong> = ${d} (Private Exponent)</li>
+            <li><strong>n</strong> = ${n} (Modulus)</li>
+        </ul>
+        Substituting the values: 
+        <strong>m = ${encrypted}<sup>${d}</sup> mod ${n}</strong> = ${decryptedCharCode} (<strong>${decrypted}</strong>'s Character Code)`;
+
+    document.getElementById("decryptionInfoText").innerHTML = infoText;
+    document.getElementById("decryptionInfoModal").classList.add("is-active");
+}
+
+document.querySelector(".modal-close").addEventListener("click", () => {
+    document.getElementById("decryptionInfoModal").classList.remove("is-active");
+});
 
 function toggleDecryptionTable() {
     const tableBody = document.getElementById("decryptionTable");
@@ -275,10 +342,15 @@ function toggleDecryptionTable() {
 
         encryptedData.slice(5).forEach(({ encrypted }) => {
             const decryptedValue = String.fromCharCode(modExp(encrypted, privateKey.d, privateKey.n)); // Decrypt value
+            const d = privateKey.d;
+            const n = publicKey.n;
             const row = document.createElement("tr");
             row.innerHTML = `
                 <td>${encrypted}</td>
                 <td>${decryptedValue}</td>
+                <td>
+                    <strong class="clickable" onclick="showDecryptedInfo(${encrypted}, '${decryptedValue}')">${encrypted}<sup>${d}</sup> mod ${n} = ${decryptedValue.charCodeAt(0)} (<strong>${decryptedValue}</strong>'s Character Code)</strong>
+                </td>
             `;
             tableBody.appendChild(row);
         });
@@ -292,6 +364,7 @@ function toggleDecryptionTable() {
         const placeholderRow = document.createElement("tr");
         placeholderRow.id = "decryptionPlaceholderRow";
         placeholderRow.innerHTML = `
+            <td>...</td>
             <td>...</td>
             <td>...</td>
         `;
