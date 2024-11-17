@@ -40,7 +40,7 @@
             <div id="keyResults" class="box is-hidden">
                 <h3 class="title is-size-4 has-text-centered">Key Results</h3>
                 <p><strong>n:</strong> <span id="nValue"></span></p>
-                <p><strong>phi(n):</strong> <span id="phiValue"></span></p>
+                <p><strong>φ(n):</strong> <span id="phiValue"></span></p>
                 <p><strong>Public Key:</strong> <span id="publicKey"></span></p>
                 <p><strong>Private Key:</strong> <span id="privateKey"></span></p>
             </div>
@@ -69,9 +69,17 @@
                         <tr>
                             <th>Character</th>
                             <th>Encrypted Value</th>
+                            <th>Calculations</th>
                         </tr>
                     </thead>
                     <tbody id="encryptionTable"></tbody>
+                    <div id="infoModal" class="modal">
+                        <div class="modal-background"></div>
+                        <div class="modal-content">
+                            <p id="infoText"></p>
+                        </div>
+                        <button class="modal-close is-large" aria-label="close"></button>
+                    </div>
                 </table>
                 <button id="toggleButton" class="button is-link mt-3 is-hidden" onclick="toggleTable()">Extend</button>
                 <button id="startDecryptionBtn" class="button is-primary mt-3" onclick="decryptMessage()">Start Decryption</button>
@@ -90,9 +98,17 @@
                         <tr>
                             <th>Encrypted Value</th>
                             <th>Decrypted Character</th>
+                            <th>Calculations</th>
                         </tr>
                     </thead>
                     <tbody id="decryptionTable"></tbody>
+                    <div id="decryptionInfoModal" class="modal">
+                        <div class="modal-background"></div>
+                        <div class="modal-content">
+                            <p id="decryptionInfoText"></p>
+                        </div>
+                        <button class="modal-close is-large" aria-label="close"></button>
+                    </div>
                 </table>
                 <button id="decryptionToggleButton" class="button is-link mt-3 is-hidden" onclick="toggleDecryptionTable()">Extend</button>
                 <p id="decryptedMessageDisplay" class="mt-3"><strong>Decrypted message:</strong> <span id="decryptedMessage"></span></p>
